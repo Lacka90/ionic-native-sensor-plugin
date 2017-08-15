@@ -33,6 +33,11 @@ public class AndroidSensorManager extends CordovaPlugin {
     }
 
     @Override
+    public void onDestroy() {
+        mSensorManager.unregisterListener(listener);
+    }
+
+    @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("initialize".equals(action)) {
             mSensorManager.registerListener(listener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
