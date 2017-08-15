@@ -6,12 +6,12 @@ var DeviceSensorLoader = function(require, exports, module) {
   function DeviceSensor() {}
       
   DeviceSensor.prototype.get = function(success, failure) {
-      exec(success, failure, 'AndroidSensorManager', 'get', []);
+      exec(success, failure, 'AndroidSensorManager', 'getCurrent', []);
   };
 
   DeviceSensor.prototype.watch = function(success, failure) {
     intervalId = setInterval(function() {
-      exec(success, failure, 'AndroidSensorManager', 'get', []);
+      exec(success, failure, 'AndroidSensorManager', 'getCurrent', []);
     }, 500);
   };
 
