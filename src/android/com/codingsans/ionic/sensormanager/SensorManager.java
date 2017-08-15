@@ -1,4 +1,4 @@
-package android.com.codingsans.ionic.sensormanager;
+package com.codingsans.ionic.sensormanager;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
