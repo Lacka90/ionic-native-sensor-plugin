@@ -44,12 +44,14 @@ public class AndroidSensorManager extends CordovaPlugin {
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 
+    @Override
     public void onResume(boolean multitasking){
         Toast.makeText((Context)cordova.getActivity(), "onResume", Toast.LENGTH_LONG).show();
 
         mSensorManager.registerListener(listener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    @Override
     public void onPause(boolean multitasking) {
         Toast.makeText((Context)cordova.getActivity(), "onResume", Toast.LENGTH_LONG).show();
 
