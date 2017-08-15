@@ -1,13 +1,17 @@
 package com.codingsans.ionic.sensormanager;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.content.Context;
 import android.hardware.SensorManager;
+import android.hardware.SensorEvent;
 import android.hardware.Sensor;
 
 public class AndroidSensorManager extends CordovaPlugin {
@@ -34,13 +38,11 @@ public class AndroidSensorManager extends CordovaPlugin {
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 
-    @Override
-    public void onResume(){
+    public void onResume(boolean multitasking){
         mSensorManager.registerListener(this.cordova.getActivity(), mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    @Override
-    public void onPause() {
+    public void onPause(boolean multitasking) {
         mSensorManager.unregisterListener(mSensor);
     }
 
