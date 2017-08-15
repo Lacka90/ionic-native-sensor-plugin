@@ -7,6 +7,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.JSONException;
 
 import android.content.Context;
@@ -32,7 +33,7 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("get".equals(action)) {
+        if ("getCurrent".equals(action)) {
             this.callbackContext = callbackContext;
             return true;
         }
@@ -50,7 +51,11 @@ public class AndroidSensorManager extends CordovaPlugin {
     private SensorEventListener listener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
             if (callbackContext != null) {
-                PluginResult result = new PluginResult(PluginResult.Status.OK, event.values[0]);
+                JSONObject result = new JSONObject();
+                result.put("x", event.values[0]);
+                result.put("y", event.values[1]);
+                result.put("z", event.values[2]);
+                PluginResult result = new PluginResult(PluginResult.Status.OK, result);
                 callbackContext.sendPluginResult(result);
             }
         }
