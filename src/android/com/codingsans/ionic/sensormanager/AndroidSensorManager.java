@@ -23,6 +23,7 @@ public class AndroidSensorManager extends CordovaPlugin {
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private CallbackContext callbackContext;
+    private JSONObject data = new JSONObject();
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -38,7 +39,8 @@ public class AndroidSensorManager extends CordovaPlugin {
         Toast.makeText((Context)cordova.getActivity(), action, Toast.LENGTH_LONG).show();
 
         if ("getCurrent".equals(action)) {
-            this.callbackContext = callbackContext;
+            PluginResult result = new PluginResult(PluginResult.Status.OK, this.data);
+            callbackContext.sendPluginResult(result);
             return true;
         }
         return false;  // Returning false results in a "MethodNotFound" error.
@@ -58,18 +60,14 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     private SensorEventListener listener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
-            Toast.makeText((Context)cordova.getActivity(), String.valueOf(event.values[0]), Toast.LENGTH_LONG).show();
+            Toast.makeText((Context)cordova.getActivity(), String.valueOf(event.values[0]), Toast.LENGTH_SHORT).show();
 
-            if (callbackContext != null) {
-                JSONObject data = new JSONObject();
-                try {
-                    data.put("x", event.values[0]);
-                    data.put("y", event.values[1]);
-                    data.put("z", event.values[2]);
-                } catch(JSONException e) {}
-                PluginResult result = new PluginResult(PluginResult.Status.OK, data);
-                callbackContext.sendPluginResult(result);
-            }
+            data = new JSONObject();
+            try {
+                data.put("x", event.values[0]);
+                data.put("y", event.values[1]);
+                data.put("z", event.values[2]);
+            } catch(JSONException e) {}
         }
         
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
