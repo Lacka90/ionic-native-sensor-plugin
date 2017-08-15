@@ -16,6 +16,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorEvent;
 import android.hardware.Sensor;
 
+import android.widget.Toast;
+
 public class AndroidSensorManager extends CordovaPlugin {
     private CordovaInterface cordova;
     private SensorManager mSensorManager;
@@ -50,12 +52,14 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     private SensorEventListener listener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
+            Toast.makeText((Context)this.cordova.getActivity(), event.values[0], Toast.LENGTH_LONG).show();
+
             if (callbackContext != null) {
                 JSONObject data = new JSONObject();
                 try {
-                data.put("x", event.values[0]);
-                data.put("y", event.values[1]);
-                data.put("z", event.values[2]);
+                    data.put("x", event.values[0]);
+                    data.put("y", event.values[1]);
+                    data.put("z", event.values[2]);
                 } catch(JSONException e) {}
                 PluginResult result = new PluginResult(PluginResult.Status.OK, data);
                 callbackContext.sendPluginResult(result);
