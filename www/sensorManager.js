@@ -4,7 +4,7 @@ var DeviceSensorLoader = function(require, exports, module) {
   function DeviceSensor() {}
       
   DeviceSensor.prototype.get = function(success, failure) {
-      exec(success, failure, 'DeviceSensor', 'get', []);
+      exec(success, failure, 'SensorManager', 'get', []);
   };
   
   var deviceSensor = new DeviceSensor();
