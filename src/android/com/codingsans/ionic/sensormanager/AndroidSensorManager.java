@@ -36,26 +36,16 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("getCurrent".equals(action)) {
+        if ("initialize".equals(action)) {
+            mSensorManager.registerListener(listener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        } else if ("finish".equals(action)) {
+            mSensorManager.unregisterListener(listener);
+        } else if ("getCurrent".equals(action)) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, this.data);
             callbackContext.sendPluginResult(result);
             return true;
         }
         return false;  // Returning false results in a "MethodNotFound" error.
-    }
-
-    @Override
-    public void onResume(boolean multitasking){
-        Toast.makeText((Context)cordova.getActivity(), "onResume", Toast.LENGTH_LONG).show();
-
-        mSensorManager.registerListener(listener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    @Override
-    public void onPause(boolean multitasking) {
-        Toast.makeText((Context)cordova.getActivity(), "onResume", Toast.LENGTH_LONG).show();
-
-        mSensorManager.unregisterListener(listener);
     }
 
     private SensorEventListener listener = new SensorEventListener() {
