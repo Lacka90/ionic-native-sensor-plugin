@@ -13,12 +13,12 @@
         <engine name="cordova" version=">=3.6.0"></engine>
     </engines>
     <platform name="android">
-        <source-file src="src/android/com/codingsans/ionic/sensormanager/SensorManager.java"
+        <source-file src="src/android/com/codingsans/ionic/sensormanager/AndroidSensorManager.java"
                      target-dir="src/com/codingsans/ionic/sensormanager"></source-file>
 
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="SensorManager">
-                <param name="android-package" value="com.codingsans.ionic.sensormanager.SensorManager" />
+            <feature name="AndroidSensorManager">
+                <param name="android-package" value="com.codingsans.ionic.sensormanager.AndroidSensorManager" />
             </feature>
         </config-file>
     </platform>
