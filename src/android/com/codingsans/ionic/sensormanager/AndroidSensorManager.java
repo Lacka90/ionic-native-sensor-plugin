@@ -52,9 +52,11 @@ public class AndroidSensorManager extends CordovaPlugin {
         public void onSensorChanged(SensorEvent event) {
             if (callbackContext != null) {
                 JSONObject data = new JSONObject();
+                try {
                 data.put("x", event.values[0]);
                 data.put("y", event.values[1]);
                 data.put("z", event.values[2]);
+                } catch(JSONException e) {}
                 PluginResult result = new PluginResult(PluginResult.Status.OK, data);
                 callbackContext.sendPluginResult(result);
             }
