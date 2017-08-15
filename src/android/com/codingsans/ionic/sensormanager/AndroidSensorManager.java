@@ -16,8 +16,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorEvent;
 import android.hardware.Sensor;
 
-import android.widget.Toast;
-
 public class AndroidSensorManager extends CordovaPlugin {
     private CordovaInterface cordova;
     private SensorManager mSensorManager;
@@ -50,8 +48,6 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     private SensorEventListener listener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
-            Toast.makeText((Context)cordova.getActivity(), String.valueOf(event.values[0]), Toast.LENGTH_SHORT).show();
-
             data = new JSONObject();
             try {
                 data.put("x", event.values[0]);
