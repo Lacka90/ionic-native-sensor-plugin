@@ -52,7 +52,7 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     private SensorEventListener listener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
-            Toast.makeText((Context)this.cordova.getActivity(), event.values[0], Toast.LENGTH_LONG).show();
+            Toast.makeText((Context)cordova.getActivity(), event.values[0], Toast.LENGTH_LONG).show();
 
             if (callbackContext != null) {
                 JSONObject data = new JSONObject();
