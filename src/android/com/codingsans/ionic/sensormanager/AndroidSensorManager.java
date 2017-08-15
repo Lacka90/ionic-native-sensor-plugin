@@ -35,6 +35,8 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        Toast.makeText((Context)cordova.getActivity(), action, Toast.LENGTH_LONG).show();
+
         if ("getCurrent".equals(action)) {
             this.callbackContext = callbackContext;
             return true;
@@ -43,10 +45,14 @@ public class AndroidSensorManager extends CordovaPlugin {
     }
 
     public void onResume(boolean multitasking){
+        Toast.makeText((Context)cordova.getActivity(), "onResume", Toast.LENGTH_LONG).show();
+
         mSensorManager.registerListener(listener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void onPause(boolean multitasking) {
+        Toast.makeText((Context)cordova.getActivity(), "onResume", Toast.LENGTH_LONG).show();
+
         mSensorManager.unregisterListener(listener);
     }
 
