@@ -7,7 +7,7 @@
     <keywords>cordova,device,sensors</keywords>
     
     <js-module name="SensorManager" src="www/sensorManager.js">
-        <clobbers target="cordova.plugins.sensorManager" />
+        <clobbers target="com.codingsans.ionic.sensormanager" />
     </js-module>
     <engines>
         <engine name="cordova" version=">=3.6.0"></engine>
