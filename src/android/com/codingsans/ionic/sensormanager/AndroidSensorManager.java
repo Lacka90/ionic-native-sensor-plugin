@@ -36,8 +36,6 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Toast.makeText((Context)cordova.getActivity(), action, Toast.LENGTH_LONG).show();
-
         if ("getCurrent".equals(action)) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, this.data);
             callbackContext.sendPluginResult(result);
