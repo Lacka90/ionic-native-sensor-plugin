@@ -10,6 +10,10 @@ var DeviceSensorLoader = function(require, exports, module) {
   };
       
   DeviceSensor.prototype.finish = function(success, failure) {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
       exec(success, failure, 'AndroidSensorManager', 'finish', []);
   };
 
@@ -17,12 +21,6 @@ var DeviceSensorLoader = function(require, exports, module) {
     intervalId = setInterval(function() {
       exec(success, failure, 'AndroidSensorManager', 'getCurrent', []);
     }, timeOffset || 500);
-  };
-
-  DeviceSensor.prototype.clear = function(success, failure) {
-    if (intervalId) {
-      clearInterval(intervalId);
-    }
   };
   
   var deviceSensor = new DeviceSensor();

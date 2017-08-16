@@ -19,7 +19,8 @@ import android.hardware.Sensor;
 public class AndroidSensorManager extends CordovaPlugin {
     private CordovaInterface cordova;
     private SensorManager mSensorManager;
-    private Sensor mSensor;
+    private Sensor accelerometer;
+    private Sensor magnetometer;
     private CallbackContext callbackContext;
     private JSONObject data = new JSONObject();
 
@@ -29,7 +30,8 @@ public class AndroidSensorManager extends CordovaPlugin {
         this.cordova = cordova;
 
         mSensorManager = (SensorManager) cordova.getActivity().getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+        accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
     }
 
     @Override
@@ -40,7 +42,8 @@ public class AndroidSensorManager extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("initialize".equals(action)) {
-            mSensorManager.registerListener(listener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            mSensorManager.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+            mSensorManager.registerListener(listener, magnetometer, SensorManager.SENSOR_DELAY_UI);
         } else if ("finish".equals(action)) {
             mSensorManager.unregisterListener(listener);
         } else if ("getCurrent".equals(action)) {
@@ -52,15 +55,32 @@ public class AndroidSensorManager extends CordovaPlugin {
     }
 
     private SensorEventListener listener = new SensorEventListener() {
+        float[] mGravity;
+        float[] mGeomagnetic;
+
         public void onSensorChanged(SensorEvent event) {
-            data = new JSONObject();
-            try {
-                data.put("x", event.values[0]);
-                data.put("y", event.values[1]);
-                data.put("z", event.values[2]);
-            } catch(JSONException e) {}
+          if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+              mGravity = event.values;
+          if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+              mGeomagnetic = event.values;
+          if (mGravity != null && mGeomagnetic != null) {
+            float R[] = new float[9];
+            float I[] = new float[9];
+            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+            if (success) {
+              float orientation[] = new float[3];
+              SensorManager.getOrientation(R, orientation);
+
+              data = new JSONObject();
+              try {
+                  data.put("x", orientation[0]);
+                  data.put("y", orientation[1]);
+                  data.put("z", orientation[2]);
+              } catch(JSONException e) {}
+            }
+          }
         }
-        
+
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
             // unused
         }
