@@ -64,7 +64,6 @@ public class AndroidSensorManager extends CordovaPlugin {
                   data.put("y", event.values[1]);
                   data.put("z", event.values[2]);
               } catch(JSONException e) {}
-            }
           }
         }
 
