@@ -31,7 +31,6 @@ public class AndroidSensorManager extends CordovaPlugin {
 
         mSensorManager = (SensorManager) cordova.getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        magnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
     }
 
     @Override
@@ -43,7 +42,6 @@ public class AndroidSensorManager extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("initialize".equals(action)) {
             mSensorManager.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI);
-            mSensorManager.registerListener(listener, magnetometer, SensorManager.SENSOR_DELAY_UI);
         } else if ("finish".equals(action)) {
             mSensorManager.unregisterListener(listener);
         } else if ("getCurrent".equals(action)) {
@@ -60,22 +58,11 @@ public class AndroidSensorManager extends CordovaPlugin {
 
         public void onSensorChanged(SensorEvent event) {
           if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-              mGravity = event.values;
-          if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-              mGeomagnetic = event.values;
-          if (mGravity != null && mGeomagnetic != null) {
-            float R[] = new float[9];
-            float I[] = new float[9];
-            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
-            if (success) {
-              float orientation[] = new float[3];
-              SensorManager.getOrientation(R, orientation);
-
               data = new JSONObject();
               try {
-                  data.put("x", orientation[0]);
-                  data.put("y", orientation[1]);
-                  data.put("z", orientation[2]);
+                  data.put("x", event.values[0]);
+                  data.put("y", event.values[1]);
+                  data.put("z", event.values[2]);
               } catch(JSONException e) {}
             }
           }
