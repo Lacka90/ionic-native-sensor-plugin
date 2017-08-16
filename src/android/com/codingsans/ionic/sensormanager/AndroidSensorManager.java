@@ -57,7 +57,7 @@ public class AndroidSensorManager extends CordovaPlugin {
         float[] mGeomagnetic;
 
         public void onSensorChanged(SensorEvent event) {
-          if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+          if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
               data = new JSONObject();
               try {
                   data.put("x", event.values[0]);
