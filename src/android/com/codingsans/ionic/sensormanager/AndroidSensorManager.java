@@ -17,17 +17,14 @@ import android.hardware.SensorEvent;
 import android.hardware.Sensor;
 
 public class AndroidSensorManager extends CordovaPlugin {
-    private CordovaInterface cordova;
     private SensorManager mSensorManager;
     private Sensor accelerometer;
-    private Sensor magnetometer;
     private CallbackContext callbackContext;
     private JSONObject data = new JSONObject();
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        this.cordova = cordova;
 
         mSensorManager = (SensorManager) cordova.getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -53,9 +50,6 @@ public class AndroidSensorManager extends CordovaPlugin {
     }
 
     private SensorEventListener listener = new SensorEventListener() {
-        float[] mGravity;
-        float[] mGeomagnetic;
-
         public void onSensorChanged(SensorEvent event) {
           if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
               data = new JSONObject();
