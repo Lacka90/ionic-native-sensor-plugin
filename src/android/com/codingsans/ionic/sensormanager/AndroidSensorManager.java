@@ -37,9 +37,9 @@ public class AndroidSensorManager extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("initialize".equals(action)) {
+        if ("start".equals(action)) {
             mSensorManager.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI);
-        } else if ("finish".equals(action)) {
+        } else if ("stop".equals(action)) {
             mSensorManager.unregisterListener(listener);
         } else if ("getCurrent".equals(action)) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, this.data);
