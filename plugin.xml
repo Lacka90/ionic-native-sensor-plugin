@@ -6,7 +6,7 @@
     <license>MIT</license>
     <keywords>cordova,device,sensors</keywords>
     
-    <js-module name="SensorManager" src="www/sensorManager.js">
+    <js-module name="AndroidSensorManager" src="www/sensorManager.js">
         <clobbers target="cordova.plugins.sensorManager" />
     </js-module>
     <engines>
